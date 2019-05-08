@@ -4,6 +4,8 @@ import os
 import time
 import tensorflow as tf
 import mnist_inference
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2"
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="2"
 
 # 定义训练神经网络时需要用到的参数。
 BATCH_SIZE = 100 
@@ -12,7 +14,7 @@ LEARNING_RATE_DECAY = 0.99
 REGULARAZTION_RATE = 0.0001
 TRAINING_STEPS = 30000
 MOVING_AVERAGE_DECAY = 0.99 
-N_GPU = 8
+N_GPU = 3
 
 # 定义日志和模型输出的路径。
 MODEL_SAVE_PATH = "logs_and_models/"
@@ -134,7 +136,7 @@ def main(argv=None):
 				duration = time.time() - start_time
                 
                 # 每隔一段时间数据当前的训练进度，并统计训练速度。
-				if step != 0 and step % 10 == 0:
+				if step != 0 and step % 200 == 0:
                     # 计算使用过的训练数据个数。
 					num_examples_per_step = BATCH_SIZE * N_GPU
 					examples_per_sec = num_examples_per_step / duration
